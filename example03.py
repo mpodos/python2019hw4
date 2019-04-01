@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 from tkinter import *
+import random
+from pandas import read_csv
+
+colorsTable = read_csv("colors.txt")
+colorNames = colorsTable['name']
+colors = dict()
+for idx, name in enumerate(colorNames):
+    colors[name] = (colorsTable['r'][idx],colorsTable['g'][idx],colorsTable['b'][idx])
 
 TKroot = Tk()
 TKroot.title("Hello")
@@ -13,10 +21,16 @@ root.grid(sticky=E+W+S+N)
 root.columnconfigure(0, weight=1)
 root.columnconfigure(1, weight=1)
 
+def getColor():
+    return random.choice(tuple(colors))
+
 def addButton():
     # заготовка под смену цвета
     def changeColor():
-        pass
+        colorLabel["background"]=getColor()
+        colorLabel["foreground"]=getColor()
+        colorButton["background"]=getColor()
+        colorButton["foreground"]=getColor()
     colorButton = Button(root, text="Button", command=changeColor)
     colorLabel = Label(root, text="Label")
     tmp, row = root.size()
