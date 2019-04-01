@@ -1,34 +1,37 @@
 #!/usr/bin/env python3
-'''
-Пример для первой лекции про TkInter
-
-Закрытие окошка в постинтерактивном режиме
-'''
-
 from tkinter import *
-
-def dump(*args):
-    print("DUMP:",args)
 
 TKroot = Tk()
 TKroot.title("Hello")
 
+TKroot.columnconfigure(0, weight=1)
+TKroot.rowconfigure(0, weight=1)
 root = Frame(TKroot)
-root.place(relx=0, rely=0, relheight=1, relwidth=1)
+root.grid(sticky=E+W+S+N)
 
+# масштабирование обеих колонок
 root.columnconfigure(0, weight=1)
-root.columnconfigure(1, weight=2)
-root.rowconfigure(0, weight=10)
-root.rowconfigure(1, weight=1)
+root.columnconfigure(1, weight=1)
 
-Butt = Button(root, text="Butt ON")
-Butt.bind('<Button-1>', dump)
-Butt.grid(row=0, column=0, sticky=E+W+S+N)
-Exit = Button(root, text="Quit!", command=root.quit)
+def addButton():
+    # заготовка под смену цвета
+    def changeColor():
+        pass
+    colorButton = Button(root, text="Button", command=changeColor)
+    colorLabel = Label(root, text="Label")
+    tmp, row = root.size()
+    # масштабирование добавленной строки
+    root.rowconfigure(row+1, weight=1)
+    colorButton.grid(row=row+1, column=0, sticky=E+W+S+N)
+    colorLabel.grid(row=row+1, column=1, sticky=E+W+S+N)
+
+def exitButton():
+    root.quit()
+
+Add = Button(root, text="Add", command=addButton)
+Add.grid(row=0, column=0, sticky=E+W+S+N)
+Exit = Button(root, text="Exit", command=exitButton)
 Exit.grid(row=0, column=1, sticky=E+W+S+N)
-Txt = Label(root, text="This is a label", bg="PeachPuff")
-Txt.grid(row=1, column=0, columnspan=2, sticky=E+W+N)
 
 TKroot.mainloop()
 print("Done")
-#root.destroy()
